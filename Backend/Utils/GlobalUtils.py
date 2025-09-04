@@ -1,0 +1,1 @@
+#this file conatins all the global functions
