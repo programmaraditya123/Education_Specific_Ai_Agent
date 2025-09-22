@@ -1,0 +1,126 @@
+
+.home {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f8f9ff;
+  min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  background: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #6a11cb;
+  }
+
+  nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+
+    li {
+      cursor: pointer;
+      font-weight: 500;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #6a11cb;
+      }
+    }
+  }
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 3rem 2rem;
+
+  h1 {
+    font-size: 2.4rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #555;
+  }
+}
+
+/* Cards Section */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 on desktop */
+  gap: 2rem;
+  padding: 3rem 2rem;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* Responsive Layout */
+@media (max-width: 1024px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr); /* 2 on tablets */
+  }
+}
+
+@media (max-width: 600px) {
+  .cards {
+    grid-template-columns: 1fr; /* 1 on small screens */
+  }
+}
+
+.card {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  h2 {
+    margin-bottom: 0.75rem;
+    font-size: 1.3rem;
+  }
+
+  p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: #666;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+  }
+
+  button {
+    padding: 0.7rem 1.4rem;
+    border: none;
+    border-radius: 0.5rem;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
