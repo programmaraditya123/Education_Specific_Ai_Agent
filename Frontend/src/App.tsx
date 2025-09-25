@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/HomePage/home";
 import ChatPage from "./Pages/Chatbot/ChatPage";

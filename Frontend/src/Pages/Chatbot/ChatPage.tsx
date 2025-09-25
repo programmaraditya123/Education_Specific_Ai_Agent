@@ -13,40 +13,55 @@ type ChatHistory = {
 };
 
 const ChatPage: React.FC = () => {
-  const [chats, setChats] = useState<ChatHistory[]>([
-    {
-      id: 1,
-      title: "Chat 1",
-      messages: [
-        {
-          sender: "bot",
-          text: "Hi 👋, I’m your assistant. How can I help you today?",
-        },
-      ],
-    },
-  ]);
-
-  const [activeChatId, setActiveChatId] = useState(1);
+  const [chats, setChats] = useState<ChatHistory[]>([]);
+  const [activeChatId, setActiveChatId] = useState<number | null>(null);
   const [input, setInput] = useState("");
 
   const activeChat = chats.find((chat) => chat.id === activeChatId);
 
-  const sendMessage = () => {
-    if (!input.trim() || !activeChat) return;
+  const sendMessage = async () => {
+    if (!input.trim() || !activeChatId) return;
 
-    const newMessage: Message = { sender: "user", text: input };
+    const user_Message: Message = { sender: "user", text: input };
+    const currentInput = input;
+    setInput("");
 
+    // 1️⃣ Add user message immediately
     setChats((prevChats) =>
       prevChats.map((chat) =>
         chat.id === activeChatId
-          ? { ...chat, messages: [...chat.messages, newMessage] }
+          ? { ...chat, messages: [...chat.messages, user_Message] }
           : chat
       )
     );
-    setInput("");
 
-    // Fake bot response
-    setTimeout(() => {
+    try {
+      // 2️⃣ Call backend
+      const res = await fetch("http://localhost:8000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_message: currentInput,
+          thread_id: `thread-${activeChatId}`,
+        }),
+      });
+
+      const data = await res.json();
+
+      // 3️⃣ Append bot reply
+      setChats((prevChats) =>
+        prevChats.map((chat) =>
+          chat.id === activeChatId
+            ? {
+                ...chat,
+                messages: [...chat.messages, { sender: "bot", text: data }],
+              }
+            : chat
+        )
+      );
+    } catch (err) {
+      console.error("Chat API ERROR", err);
+      // Add error message to chat so user sees feedback
       setChats((prevChats) =>
         prevChats.map((chat) =>
           chat.id === activeChatId
@@ -54,13 +69,13 @@ const ChatPage: React.FC = () => {
                 ...chat,
                 messages: [
                   ...chat.messages,
-                  { sender: "bot", text: "I got your message 👍" },
+                  { sender: "bot", text: "⚠️ Error: Could not reach server" },
                 ],
               }
             : chat
         )
       );
-    }, 1000);
+    }
   };
 
   const handleNewChat = () => {
@@ -106,23 +121,29 @@ const ChatPage: React.FC = () => {
         <div className={styles["chat-header"]}>Thinkora Chatbot 🤖</div>
 
         <div className={styles["chat-window"]}>
-          {activeChat?.messages.map((msg, i) => (
-            <div key={i} className={`${styles.message} ${styles[msg.sender]}`}>
-              {msg.text}
-            </div>
-          ))}
+          {activeChat ? (
+            activeChat.messages.map((msg, i) => (
+              <div key={i} className={`${styles.message} ${styles[msg.sender]}`}>
+                {msg.text}
+              </div>
+            ))
+          ) : (
+            <div className={styles["no-chat"]}>Start a new chat to begin!</div>
+          )}
         </div>
 
-        <div className={styles["chat-input"]}>
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-            placeholder="Type a message..."
-          />
-          <button onClick={sendMessage}>Send</button>
-        </div>
+        {activeChat && (
+          <div className={styles["chat-input"]}>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+              placeholder="Type a message..."
+            />
+            <button onClick={sendMessage}>Send</button>
+          </div>
+        )}
       </div>
     </div>
   );

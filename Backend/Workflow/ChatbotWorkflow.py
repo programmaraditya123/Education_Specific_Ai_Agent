@@ -1,5 +1,5 @@
 from typing import TypedDict,List,Annotated
-from langchain_core.messages import BaseMessage,HumanMessage
+from langchain_core.messages import BaseMessage,HumanMessage,SystemMessage
 from langgraph.graph import StateGraph,START,END
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.checkpoint.memory import MemorySaver
@@ -42,16 +42,16 @@ chatbot = graph.compile(checkpointer=checkpointer)
 
 
 
-while True:
-    userMessage = input("Type here..")
-    print(userMessage)
+# while True:
+#     userMessage = input("Type here..")
+#     print(userMessage)
 
-    if userMessage.strip().lower() in ["exit","quit","bye"]:
-        break
+#     if userMessage.strip().lower() in ["exit","quit","bye"]:
+#         break
 
-    config = {'configurable':{'thread_id':"thread-1"}}
+#     config = {'configurable':{'thread_id':"thread-1"}}
 
-    response = chatbot.invoke({'messages':[HumanMessage(content=userMessage)]},config=config)
-    print("AI",response['messages'][-1].content)
+#     response = chatbot.invoke({'messages':[HumanMessage(content=userMessage)]},config=config)
+#     print("AI",response['messages'][-1].content)
 
 
