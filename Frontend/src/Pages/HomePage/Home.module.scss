@@ -1,40 +1,7 @@
-
 .home {
   font-family: 'Segoe UI', sans-serif;
   background: #f8f9ff;
   min-height: 100vh;
-}
-
-/* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 3rem;
-  background: white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-
-  .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #6a11cb;
-  }
-
-  nav ul {
-    display: flex;
-    list-style: none;
-    gap: 1.5rem;
-
-    li {
-      cursor: pointer;
-      font-weight: 500;
-      transition: color 0.2s;
-
-      &:hover {
-        color: #6a11cb;
-      }
-    }
-  }
 }
 
 /* Hero Section */

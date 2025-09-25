@@ -1,0 +1,122 @@
+/* Header container */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;                  /* use right instead of width:100% to avoid overflow */
+  height: 60px;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 clamp(1rem, 4vw, 2rem);  /* responsive horizontal padding */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+/* Add safe space so content never hides behind header */
+body {
+  padding-top: 60px;   /* matches .header height */
+}
+
+/* Logo */
+.logo {
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  cursor: pointer;
+  letter-spacing: 1px;
+  user-select: none;
+}
+
+/* Menu button */
+.menuButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+/* Dropdown panel */
+.overlay {
+  position: absolute;
+  top: 60px;
+  right: 1rem;             /* give safe space from scrollbar */
+  width: 240px;
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  padding: 1rem;
+  z-index: 1100;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  animation: fadeInDropdown 0.3s ease-in-out;
+}
+
+/* Menu links */
+.nav {
+  display: contents;
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-radius: 10px;
+  padding: 0.5rem;
+
+  svg,
+  i {
+    width: 26px;
+    height: 26px;
+    font-size: 26px;
+    color: #6a11cb;
+    margin-bottom: 6px;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  span {
+    font-size: 0.85rem;
+  }
+
+  &:hover {
+    background: #f0f2ff;
+    transform: translateY(-3px);
+
+    svg,
+    i {
+      color: #2575fc;
+      transform: scale(1.1);
+    }
+  }
+}
+
+/* Dropdown animation */
+@keyframes fadeInDropdown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

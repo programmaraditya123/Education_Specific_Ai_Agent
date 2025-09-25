@@ -1,23 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.scss";
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.home}>
-      {/* Navbar */ }
-      <header className={styles.navbar}>
-        <div className={styles.logo}>Thinkora</div> {/*thiking +bright future*/}
-        <nav>
-          <ul>
-            <li>Home</li>
-            <li>Resources</li>
-            <li>Quiz</li>
-            <li>Summarizer</li>
-            <li>Chatbot</li>
-          </ul>
-        </nav>
-      </header>
-
       {/* Hero Section */}
       <section className={styles.hero}>
         <h1>Your Learning Companion 🚀</h1>
@@ -47,7 +36,7 @@ const Home: React.FC = () => {
           <h2>🤖 Simple Chatbot</h2>
           <p>Ask questions and get instant AI responses.</p>
           <input type="text" placeholder="Type a message..." />
-          <button>Chat</button>
+          <button onClick={() => navigate("/chatbot")}>Chat</button>
         </div>
 
         <div className={styles.card}>
