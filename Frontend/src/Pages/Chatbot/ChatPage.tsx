@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styles from "./ChatPage.module.scss";
 
 type Message = {
-  sender: "user" | "bot";
-  text: string;
+  sender: "user" | "assistant";
+  text: string ;
 };
 
 type ChatHistory = {
@@ -15,13 +15,15 @@ type ChatHistory = {
 const ChatPage: React.FC = () => {
   const [chats, setChats] = useState<ChatHistory[]>([]);
   const [activeChatId, setActiveChatId] = useState<number | null>(null);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState("")
+  const [firstChat,setFirstChat] = useState<string>("") || undefined;
 
   const activeChat = chats.find((chat) => chat.id === activeChatId);
 
   const sendMessage = async () => {
     if (!input.trim() || !activeChatId) return;
 
+    if (firstChat === "" && !activeChatId) setFirstChat(input);
     const user_Message: Message = { sender: "user", text: input };
     const currentInput = input;
     setInput("");
@@ -33,7 +35,7 @@ const ChatPage: React.FC = () => {
           ? { ...chat, messages: [...chat.messages, user_Message] }
           : chat
       )
-    );
+    ); 
 
     try {
       // 2️⃣ Call backend
@@ -48,13 +50,13 @@ const ChatPage: React.FC = () => {
 
       const data = await res.json();
 
-      // 3️⃣ Append bot reply
+      //Append assistant reply
       setChats((prevChats) =>
         prevChats.map((chat) =>
           chat.id === activeChatId
             ? {
                 ...chat,
-                messages: [...chat.messages, { sender: "bot", text: data }],
+                messages: [...chat.messages, { sender: "assistant", text: data }],
               }
             : chat
         )
@@ -69,7 +71,7 @@ const ChatPage: React.FC = () => {
                 ...chat,
                 messages: [
                   ...chat.messages,
-                  { sender: "bot", text: "⚠️ Error: Could not reach server" },
+                  { sender: "assistant", text: "⚠️ Error: Could not reach server" },
                 ],
               }
             : chat
@@ -79,14 +81,15 @@ const ChatPage: React.FC = () => {
   };
 
   const handleNewChat = () => {
+    setFirstChat("")
     const newId = chats.length + 1;
     const newChat: ChatHistory = {
       id: newId,
       title: `Chat ${newId}`,
       messages: [
         {
-          sender: "bot",
-          text: "Hi 👋, I’m your assistant. How can I help you today?",
+          sender: "assistant",
+          text: firstChat ,
         },
       ],
     };
@@ -117,7 +120,7 @@ const ChatPage: React.FC = () => {
       </aside>
 
       {/* Chat Window */}
-      <div className={styles["chatbot-container"]}>
+      {firstChat.trim() === ""  ? <div className={styles["chatbot-container"]}>
         <div className={styles["chat-header"]}>Thinkora Chatbot 🤖</div>
 
         <div className={styles["chat-window"]}>
@@ -131,6 +134,7 @@ const ChatPage: React.FC = () => {
             <div className={styles["no-chat"]}>Start a new chat to begin!</div>
           )}
         </div>
+        
 
         {activeChat && (
           <div className={styles["chat-input"]}>
@@ -145,6 +149,21 @@ const ChatPage: React.FC = () => {
           </div>
         )}
       </div>
+      : <div className={styles.firstChat}>
+        <div className={styles["chat-input"]}>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+              placeholder="Type a message..."
+            />
+            <button onClick={() => sendMessage()}>Send</button>
+          </div>
+       
+    </div>}
+    
+
     </div>
   );
 };

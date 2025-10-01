@@ -1,6 +1,6 @@
 .chat-page {
   display: flex;
-  height: 100vh;
+  height: 85vh;
   width: 100vw;
   overflow: hidden;
   font-family: "Segoe UI", sans-serif;
@@ -8,7 +8,7 @@
   background-attachment: fixed;
   background-size: 400px;
   background-blend-mode: lighten;
-  padding-top: 70px; /* space for global header */
+  // padding-top: 70px; /* space for global header */
   box-sizing: border-box;
 }
 
@@ -202,7 +202,8 @@
 @media (max-width: 768px) {
   .chat-page {
     flex-direction: column;
-    padding-top: 70px; /* space for header */
+    // padding-top: 70px; /* space for header */
+    padding-top: 1rem;
   }
 
   .sidebar {
