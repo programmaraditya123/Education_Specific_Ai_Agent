@@ -12,6 +12,8 @@ type ChatHistory = {
   messages: Message[];
 };
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL
+
 const ChatPage: React.FC = () => {
   const [chats, setChats] = useState<ChatHistory[]>([]);
   const [activeChatId, setActiveChatId] = useState<number | null>(null);
@@ -39,7 +41,7 @@ const ChatPage: React.FC = () => {
 
     try {
       // 2️⃣ Call backend
-      const res = await fetch("http://localhost:8000/chat", {
+      const res = await fetch(`${BASE_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
