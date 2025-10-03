@@ -6,6 +6,8 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
+from Modules.internetspeedtest.speedtest_module import speedtest_info,get_servers
+from fastapi.concurrency import run_in_threadpool
 
 app = FastAPI()
 app.add_middleware(
@@ -36,7 +38,18 @@ async def chat_endpoint(request: ChatRequest):
     config = {'configurable': {'thread_id': request.thread_id}}
     response = chatbot.invoke({'messages': [SystemMessage(content="You are a helpful AI assistant for an e-learning platform. "
                               "Always answer concisely and politely.""If question is not about education or learning , you say ask questions only from learning point of view in your way"), HumanMessage(content=request.user_message)]}, config=config)
-    return response['messages'][-1].content
+    return response['messages'][-1]
+    
+
+
+#routes for internet speed test
+@app.get('/speedtest')
+async def speedtest():
+    return await run_in_threadpool(speedtest_info)
+
+@app.get('/get_servers')
+async def get_servers_info():
+    return await run_in_threadpool(get_servers)
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8080))  # Default to 8080 if PORT not set
