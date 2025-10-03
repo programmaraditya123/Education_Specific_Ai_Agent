@@ -4,11 +4,13 @@ from Workflow.ChatbotWorkflow import chatbot
 # from .Workflow.ChatbotWorkflow import chatbot
 from langchain_core.messages import HumanMessage, SystemMessage
 from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
+import os
 
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # or ["*"] for all
+    allow_origins=["*"],  # or ["*"] for all
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -24,6 +26,10 @@ class ChatRequest(BaseModel):
 def root():
     return {"hello": "This is the home page"}
 
+@app.get('/health')
+def health():
+    return {"status":"ok"}
+
 
 @app.post('/chat')
 async def chat_endpoint(request: ChatRequest):
@@ -31,3 +37,7 @@ async def chat_endpoint(request: ChatRequest):
     response = chatbot.invoke({'messages': [SystemMessage(content="You are a helpful AI assistant for an e-learning platform. "
                               "Always answer concisely and politely.""If question is not about education or learning , you say ask questions only from learning point of view in your way"), HumanMessage(content=request.user_message)]}, config=config)
     return response['messages'][-1].content
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 8080))  # Default to 8080 if PORT not set
+    uvicorn.run(app, host="0.0.0.0", port=port)
