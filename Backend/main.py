@@ -6,8 +6,8 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
-from Modules.internetspeedtest.speedtest_module import speedtest_info,get_servers
-from fastapi.concurrency import run_in_threadpool
+# from Modules.internetspeedtest.speedtest_module import speedtest_info,get_servers
+# from fastapi.concurrency import run_in_threadpool
 
 app = FastAPI()
 app.add_middleware(
