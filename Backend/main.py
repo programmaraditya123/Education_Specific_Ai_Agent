@@ -43,13 +43,13 @@ async def chat_endpoint(request: ChatRequest):
 
 
 #routes for internet speed test
-@app.get('/speedtest')
-async def speedtest():
-    return await run_in_threadpool(speedtest_info)
+# @app.get('/speedtest')
+# async def speedtest():
+#     return await run_in_threadpool(speedtest_info)
 
-@app.get('/get_servers')
-async def get_servers_info():
-    return await run_in_threadpool(get_servers)
+# @app.get('/get_servers')
+# async def get_servers_info():
+#     return await run_in_threadpool(get_servers)
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8080))  # Default to 8080 if PORT not set
