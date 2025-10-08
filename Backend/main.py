@@ -8,6 +8,7 @@ import uvicorn
 import os
 # from Modules.internetspeedtest.speedtest_module import speedtest_info,get_servers
 # from fastapi.concurrency import run_in_threadpool
+from fastapi.responses import Response
 
 app = FastAPI()
 app.add_middleware(
@@ -50,6 +51,20 @@ async def chat_endpoint(request: ChatRequest):
 # @app.get('/get_servers')
 # async def get_servers_info():
 #     return await run_in_threadpool(get_servers)
+
+
+# Endpoint to test download speed
+@app.get("/download")
+async def download_file():
+    size_mb = 50  # adjust size
+    data = os.urandom(size_mb * 1024 * 1024)  # generate random bytes
+    return Response(content=data, media_type="application/octet-stream")
+
+# Endpoint to test upload speed
+@app.post("/upload")
+async def upload_file(file: bytes = None):
+    # We just accept the file, no need to store
+    return {"size_bytes": len(file or b"")}
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8080))  # Default to 8080 if PORT not set
