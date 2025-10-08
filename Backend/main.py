@@ -15,7 +15,7 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",           # dev
     "https://knowledgepoll.site", 
-    "https://test-your-internet-speed.knowledgepoll.site/"     # production frontend
+    "https://test-your-internet-speed.knowledgepoll.site"     # production frontend
 ]
 app.add_middleware(
     CORSMiddleware,
