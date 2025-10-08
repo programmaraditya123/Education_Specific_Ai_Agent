@@ -11,9 +11,15 @@ import os
 from fastapi.responses import Response
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:3000",           # dev
+    "https://knowledgepoll.site", 
+    "https://test-your-internet-speed.knowledgepoll.site/"     # production frontend
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # or ["*"] for all
+    allow_origins=origins,  # or ["*"] for all
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
