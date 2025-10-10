@@ -1,25 +1,22 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from Workflow.ChatbotWorkflow import chatbot
-# from .Workflow.ChatbotWorkflow import chatbot
 from langchain_core.messages import HumanMessage, SystemMessage
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
-# from Modules.internetspeedtest.speedtest_module import speedtest_info,get_servers
-# from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import Response
 
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",           # dev
+    "http://localhost:3000",            
     "https://knowledgepoll.site", 
-    "https://test-your-internet-speed.knowledgepoll.site"     # production frontend
+    "https://test-your-internet-speed.knowledgepoll.site"     
 ]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # or ["*"] for all
+    allow_origins=["*"],   
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -49,17 +46,15 @@ async def chat_endpoint(request: ChatRequest):
     
 
 
-#routes for internet speed test
-# @app.get('/speedtest')
-# async def speedtest():
-#     return await run_in_threadpool(speedtest_info)
-
-# @app.get('/get_servers')
-# async def get_servers_info():
-#     return await run_in_threadpool(get_servers)
+ 
 
 
-@app.get("/download")
+@app.get("/download", responses={
+    200: {
+        "content": {"application/octet-stream": {}},
+        "description": "Binary stream for download speed test",
+    }
+})
 async def download_file():
     size_mb = 50
     data = os.urandom(size_mb * 1024 * 1024)
