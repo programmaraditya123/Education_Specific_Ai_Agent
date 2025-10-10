@@ -8,3 +8,4 @@ langchain-google-genai
 requests
 python-dotenv
 # speedtest-cli
+fastmcp
