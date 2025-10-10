@@ -67,6 +67,12 @@ async def download_file():
 async def upload_file(file: bytes = None):
     return {"size_bytes": len(file or b"")}
 
+
+@app.get("/ping")
+async def ping():
+    return {"message": "pong"}
+
+
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8080))  # Default to 8080 if PORT not set
     uvicorn.run(app, host="0.0.0.0", port=port)
