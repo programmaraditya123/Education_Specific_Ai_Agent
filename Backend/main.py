@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
 from fastapi.responses import Response
+from fastapi.responses import StreamingResponse
 
 app = FastAPI()
 
@@ -49,16 +50,16 @@ async def chat_endpoint(request: ChatRequest):
  
 
 
-@app.get("/download", responses={
-    200: {
-        "content": {"application/octet-stream": {}},
-        "description": "Binary stream for download speed test",
-    }
-})
+@app.get("/download")
 async def download_file():
     size_mb = 50
-    data = os.urandom(size_mb * 1024 * 1024)
-    response = Response(content=data, media_type="application/octet-stream")
+    chunk_size = 1024 * 1024   
+
+    async def file_stream():
+        for _ in range(size_mb):
+            yield os.urandom(chunk_size)
+
+    response = StreamingResponse(file_stream(), media_type="application/octet-stream")
     response.headers["Access-Control-Allow-Origin"] = "*"
     return response
 
