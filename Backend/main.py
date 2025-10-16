@@ -7,6 +7,7 @@ import uvicorn
 import os
 from fastapi.responses import Response
 from fastapi.responses import StreamingResponse
+import asyncio
 
 app = FastAPI()
 
@@ -41,9 +42,19 @@ def health():
 @app.post('/chat')
 async def chat_endpoint(request: ChatRequest):
     config = {'configurable': {'thread_id': request.thread_id}}
-    response = chatbot.invoke({'messages': [SystemMessage(content="You are a helpful AI assistant for an e-learning platform. "
+    async def generate():
+        response = chatbot.invoke({'messages': [SystemMessage(content="You are a helpful AI assistant for an e-learning platform. "
                               "Always answer concisely and politely.""If question is not about education or learning , you say ask questions only from learning point of view in your way"), HumanMessage(content=request.user_message)]}, config=config)
-    return response['messages'][-1]
+        text =  response['messages'][-1].content
+
+        for word in text.split():
+            yield word+" "
+            await asyncio.sleep(0.05)
+
+    return StreamingResponse(generate(), media_type="text/plain")
+
+
+# ['messages'][-1].content
     
 
 
