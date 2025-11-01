@@ -14,7 +14,7 @@ class ChatState(TypedDict):
     messages:Annotated[list[BaseMessage],add_messages]   #it stores the conversation history
 
 
-model = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+model = ChatGoogleGenerativeAI(model="gemini-2.5-flash",streaming=True)
 
 def call_llm(state:ChatState):
     res = model.invoke(state['messages'])
