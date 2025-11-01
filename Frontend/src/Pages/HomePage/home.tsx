@@ -40,10 +40,12 @@ const Home: React.FC = () => {
         </div>
 
         <div className={styles.card}>
-          <h2>📚 Resource Finder</h2>
-          <p>Discover curated learning resources.</p>
+          <h2>Career Guidance</h2>
+          <p>Get proper guidance on how to build career in any field</p>
           <input type="text" placeholder="Enter topic..." />
-          <button>Find Resources</button>
+          <button onClick={() => navigate("/career-guidance")}>
+            Career-Guidance
+          </button>
         </div>
       </section>
     </div>

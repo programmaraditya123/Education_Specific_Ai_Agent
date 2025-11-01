@@ -6,7 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
 from fastapi.responses import Response
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse,JSONResponse
+from Workflow.CareerGuidance import StructuredAdvice, career_bot
 
 app = FastAPI()
 
@@ -29,6 +30,15 @@ class ChatRequest(BaseModel):
     thread_id: str = "thread-1"
 
 
+class CareerRequest(BaseModel):
+    education: str
+    interests: str
+    query: str
+
+class CareerResponse(BaseModel):
+    advice: StructuredAdvice
+
+
 @app.get('/')
 def root():
     return {"hello": "This is the home page"}
@@ -43,11 +53,20 @@ async def chat_endpoint(request: ChatRequest):
     config = {'configurable': {'thread_id': request.thread_id}}
     response = chatbot.invoke({'messages': [SystemMessage(content="You are a helpful AI assistant for an e-learning platform. "
                               "Always answer concisely and politely.""If question is not about education or learning , you say ask questions only from learning point of view in your way"), HumanMessage(content=request.user_message)]}, config=config)
-    return response['messages'][-1]
+    return response['messages'][-1].content
     
 
 
- 
+@app.post("/career-guidance", response_model=CareerResponse, tags=["Career Guidance"])
+async def career_guidance_endpoint(request: CareerRequest):
+    """
+    Accepts user's education, interests, and query to generate career advice.
+    """
+    inputs = request.dict()
+    final_state = career_bot.invoke(inputs)
+
+    # This return statement is now correct because it matches the updated CareerResponse
+    return {"advice": final_state.get("advice")}
 
 
 @app.get("/download")

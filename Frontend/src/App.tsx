@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/HomePage/home";
 import ChatPage from "./Pages/Chatbot/ChatPage";
 import Header from "./Pages/header/header"; // Make sure the component is named Header
-
+import CareerGuidance from "./pages/CareerGuidance/CareerGuidance";
 function App() {
   return (
     <Router>
@@ -13,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/chatbot" element={<ChatPage />} />
+        <Route path="/career-guidance" element={<CareerGuidance />} />
       </Routes>
     </Router>
   );
