@@ -2,16 +2,16 @@ import React, { useState, useRef } from "react";
 import styles from "./PdfSummarizerPage.module.scss";
 import axios from "axios";
 
-type Message = {
-  sender: "user" | "bot";
-  text: string;
-};
+// type Message = {
+//   sender: "user" | "bot";
+//   text: string;
+// };
 
 const PdfSummarizerPage: React.FC = () => {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
-  const [question, setQuestion] = useState("");
+  // const [question, setQuestion] = useState("");
   const [summary, setSummary] = useState("Upload a PDF and I’ll summarize it here.");
-  const [chat, setChat] = useState<Message[]>([]);
+  // const [chat, setChat] = useState<Message[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const BACKEND_URL = "https://education-specific-ai-agent-710178903619.asia-south1.run.app"; // change to your deployed backend
@@ -38,7 +38,7 @@ const PdfSummarizerPage: React.FC = () => {
     e.stopPropagation();
     setPdfFile(null);
     setSummary("Upload a PDF and I’ll summarize it here.");
-    setChat([]);
+    // setChat([]);
   };
 
   // Trigger hidden file input
@@ -47,22 +47,22 @@ const PdfSummarizerPage: React.FC = () => {
   };
 
   // Ask question about the uploaded PDF
-  const handleAsk = async () => {
-    if (!question.trim()) return;
-    setChat((prev) => [...prev, { sender: "user", text: question }]);
+  // const handleAsk = async () => {
+  //   if (!question.trim()) return;
+  //   setChat((prev) => [...prev, { sender: "user", text: question }]);
 
-    try {
-      const formData = new FormData();
-      formData.append("question", question);
-      const res = await axios.post(`${BACKEND_URL}/ask`, formData);
-      const answer = res.data.answer || "No answer available.";
-      setChat((prev) => [...prev, { sender: "bot", text: answer }]);
-    } catch (err) {
-      console.error(err);
-      setChat((prev) => [...prev, { sender: "bot", text: "❌ Error fetching answer." }]);
-    }
-    setQuestion("");
-  };
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("question", question);
+  //     const res = await axios.post(`${BACKEND_URL}/ask`, formData);
+  //     const answer = res.data.answer || "No answer available.";
+  //     setChat((prev) => [...prev, { sender: "bot", text: answer }]);
+  //   } catch (err) {
+  //     console.error(err);
+  //     setChat((prev) => [...prev, { sender: "bot", text: "❌ Error fetching answer." }]);
+  //   }
+  //   setQuestion("");
+  // };
 
   return (
     <div className={styles["pdf-page"]}>
