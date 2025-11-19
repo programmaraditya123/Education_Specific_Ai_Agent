@@ -13,3 +13,4 @@ faiss-cpu
 PyPDF2
 langchain-community
 python-multipart
+faiss
