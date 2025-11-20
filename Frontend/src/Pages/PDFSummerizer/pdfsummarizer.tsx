@@ -8,7 +8,8 @@ const PdfSummarizerPage: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const BACKEND_URL =
-    "https://education-specific-ai-agent-710178903619.asia-south1.run.app";
+    // "https://education-specific-ai-agent-710178903619.asia-south1.run.app";
+    "http://localhost:8000"
 
 
   const handleFileUpload = async (file: File) => {

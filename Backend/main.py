@@ -10,7 +10,7 @@ from fastapi.responses import StreamingResponse,JSONResponse
 from Workflow.CareerGuidance import StructuredAdvice, career_bot
 import asyncio
 from Modules.summarizer.chain import get_summary_chain
-from langchain_community.chains import RetrievalQA
+# from langchain_community.chains import RetrievalQA
 from Modules.summarizer.vector_store import build_vector_store,Document
 from Workflow.PdfWorkflow import build_langgraph
 from PyPDF2 import PdfReader

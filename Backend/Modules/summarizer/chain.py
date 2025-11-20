@@ -1,5 +1,6 @@
 # from langchain.chains import RetrievalQA
-from langchain_community.chains import RetrievalQA
+# from langchain_community.chains import RetrievalQA
+from langchain.chains.retrieval_qa.base import RetrievalQA
 
 # from langchain_community.llms import OpenAI
 from langchain_openai import OpenAI
