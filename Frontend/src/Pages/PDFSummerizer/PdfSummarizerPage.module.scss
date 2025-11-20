@@ -2,14 +2,16 @@
 .pdf-page {
   display: flex;
   flex-direction: row;
-  align-items: stretch;
-  height: calc(100vh - 70px);
+  // align-items: stretch;
+  // height: calc(100vh - 100px);
+  height: 90vh;
   width: 100%;
   background: radial-gradient(circle at top left, #0b0b1a 0%, #050510 100%);
   padding: 1rem;
   box-sizing: border-box;
   gap: 1rem;
   color: #fff;
+  position: fixed;
 }
 
 .leftPanel {
@@ -116,7 +118,7 @@
   border-radius: 12px;
   padding: 1rem;
   width: 95%;
-  min-height: 560px;
+  // min-height: 560px;
   font-size: 1rem;
   color: #b0b0b0;
   overflow-y: auto;
